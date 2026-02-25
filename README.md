@@ -35,10 +35,10 @@ A modern, Apple-style workout tracking application with persistent storage, desi
 
 ## Pre-configured Program
 
-The app comes with a weekly program:
+The app comes with a sample weekly program:
 
 - **Tuesday**: Full Body Strength (6 exercises)
-- **Thursday**: Upper Body Focus (6 exercises)
+- **Thursday**: Upper Body Focus (6 exercises)  
 - **Saturday**: Legs & Core (5 exercises)
 
 You can edit these templates and apply changes to all future sessions.
@@ -160,7 +160,7 @@ Estimates assume 85kg body weight (configurable in `lib/calories.ts`).
 
 ### Change User Weight
 
-Edit `/lib/calories.ts` and update the default `weightKg` parameter.
+Edit `/lib/calories.ts` and update the default `weightKg` parameter to match your body weight.
 
 ### Add More Exercises
 

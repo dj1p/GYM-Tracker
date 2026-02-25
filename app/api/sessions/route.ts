@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
         FROM sessions s
         LEFT JOIN program_template pt ON s.program_template_id = pt.id
         WHERE s.session_date = ?
-      `).get(date);
+      `).get(date) as any;
       
       if (session) {
         // Get exercises for this session
@@ -26,10 +26,10 @@ export async function GET(request: NextRequest) {
           JOIN equipment eq ON e.equipment_id = eq.id
           WHERE se.session_id = ?
           ORDER BY se.order_index
-        `).all(session.id);
+        `).all(session.id) as any[];
         
         // Get sets for each exercise
-        const exercisesWithSets = exercises.map(ex => ({
+        const exercisesWithSets = exercises.map((ex: any) => ({
           ...ex,
           sets: db.prepare('SELECT * FROM exercise_sets WHERE session_exercise_id = ? ORDER BY set_number').all(ex.id)
         }));
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
           FROM cardio_sessions cs
           JOIN equipment eq ON cs.equipment_id = eq.id
           WHERE cs.session_id = ?
-        `).all(session.id);
+        `).all(session.id) as any[];
         
         return NextResponse.json({ ...session, exercises: exercisesWithSets, cardio });
       }
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
       const dayOfWeek = new Date(date).getDay();
       const template = db.prepare(`
         SELECT * FROM program_template WHERE day_of_week = ?
-      `).get(dayOfWeek);
+      `).get(dayOfWeek) as any;
       
       if (template) {
         const exercises = db.prepare(`
@@ -59,11 +59,11 @@ export async function GET(request: NextRequest) {
           JOIN equipment eq ON e.equipment_id = eq.id
           WHERE pe.program_template_id = ?
           ORDER BY pe.order_index
-        `).all(template.id);
+        `).all(template.id) as any[];
         
         return NextResponse.json({ 
           template, 
-          exercises: exercises.map(ex => ({
+          exercises: exercises.map((ex: any) => ({
             ...ex,
             sets: Array(ex.sets || 3).fill(null).map((_, i) => ({
               set_number: i + 1,
@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
         LEFT JOIN program_template pt ON s.program_template_id = pt.id
         WHERE s.session_date >= ? AND s.session_date <= ?
         ORDER BY s.session_date DESC
-      `).all(from, to);
+      `).all(from, to) as any[];
       
       return NextResponse.json(sessions);
     }
@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
       LEFT JOIN program_template pt ON s.program_template_id = pt.id
       ORDER BY s.session_date DESC
       LIMIT 20
-    `).all();
+    `).all() as any[];
     
     return NextResponse.json(sessions);
   } catch (error) {

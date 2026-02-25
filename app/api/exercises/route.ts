@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
         SELECT * FROM equipment_settings 
         WHERE exercise_id = ?
         ORDER BY last_used DESC
-      `).all(exerciseId);
+      `).all(exerciseId) as any[];
       
       return NextResponse.json(settings);
     }
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (type === 'cardio') {
       const equipment = db.prepare(`
         SELECT * FROM equipment WHERE type = 'cardio'
-      `).all();
+      `).all() as any[];
       return NextResponse.json(equipment);
     }
     
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       FROM exercises e
       JOIN equipment eq ON e.equipment_id = eq.id
       ORDER BY e.muscle_group, e.name
-    `).all();
+    `).all() as any[];
     
     return NextResponse.json(exercises);
   } catch (error) {

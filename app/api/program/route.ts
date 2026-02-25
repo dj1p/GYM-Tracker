@@ -5,9 +5,9 @@ export async function GET() {
   try {
     const programs = db.prepare(`
       SELECT * FROM program_template ORDER BY day_of_week
-    `).all();
+    `).all() as any[];
     
-    const programsWithExercises = programs.map(program => ({
+    const programsWithExercises = programs.map((program: any) => ({
       ...program,
       exercises: db.prepare(`
         SELECT pe.*, e.name, e.muscle_group, eq.name as equipment_name
