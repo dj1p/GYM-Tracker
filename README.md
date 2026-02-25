@@ -35,7 +35,7 @@ A modern, Apple-style workout tracking application with persistent storage, desi
 
 ## Pre-configured Program
 
-The app comes with Tor's weekly program:
+The app comes with a weekly program:
 
 - **Tuesday**: Full Body Strength (6 exercises)
 - **Thursday**: Upper Body Focus (6 exercises)
