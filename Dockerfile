@@ -7,6 +7,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json* ./
 RUN npm ci
+RUN npm install --no-save @next/swc-linux-x64-musl@14.2.0 || true
 
 # Build
 FROM base AS builder
